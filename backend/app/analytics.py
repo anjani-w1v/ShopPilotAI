@@ -21,6 +21,7 @@ def calculate_kpis(df):
         "profit": round(profit, 2),
         "orders": orders,
         "inventory": round(inventory, 1),
+        "forecast": sales_forecast(df),
     }
 
 
@@ -116,4 +117,64 @@ def calculate_business_score(df):
     return {
         "score": score,
         "status": status,
+    }
+
+
+def sales_forecast(df):
+    """
+    Simple 7-day sales forecast using average daily revenue.
+    """
+
+    if "Date" not in df.columns or "Revenue" not in df.columns:
+        return []
+
+    daily = (
+        df.groupby("Date")["Revenue"]
+        .sum()
+        .reset_index()
+    )
+
+    avg = daily["Revenue"].mean()
+
+    last_date = pd.to_datetime(daily["Date"]).max()
+
+    forecast = []
+
+    for i in range(1, 8):
+        forecast.append({
+            "date": (last_date + pd.Timedelta(days=i)).strftime("%Y-%m-%d"),
+            "forecast": round(avg)
+        })
+
+    return forecast
+
+def get_decision_center(df):
+
+    critical = []
+    opportunities = []
+
+    low = get_low_inventory(df)
+
+    if len(low) > 0:
+        critical.append({
+            "title": "Restock Immediately",
+            "message": f"{low[0]['product']} has only {low[0]['inventory']} units remaining."
+        })
+
+    score = calculate_business_score(df)["score"]
+
+    if score >= 80:
+        opportunities.append({
+            "title": "Growth Opportunity",
+            "message": "Business health is strong. Increase marketing for your best-selling products."
+        })
+    else:
+        opportunities.append({
+            "title": "Improve Performance",
+            "message": "Increase profit margin and improve inventory levels."
+        })
+
+    return {
+        "critical": critical,
+        "opportunities": opportunities,
     }

@@ -86,28 +86,28 @@ function Navbar() {
         {/* CTA */}
 
         <Link
-          to="/dashboard"
+          to="/dashboard#upload-section"
           className="
-            hidden
-            md:flex
-            items-center
-            gap-2
-            bg-gradient-to-r
-            from-cyan-500
-            to-blue-600
-            text-white
-            px-6
-            py-3
-            rounded-xl
-            font-semibold
-            shadow-lg
-            hover:scale-105
-            hover:shadow-cyan-500/40
-            transition-all
-            duration-300
+          hidden
+          md:flex
+          items-center
+          gap-2
+          bg-gradient-to-r
+          from-cyan-500
+          to-blue-600
+          text-white
+          px-6
+          py-3
+          rounded-xl
+          font-semibold
+          shadow-lg
+          hover:scale-105
+          hover:shadow-cyan-500/40
+          transition-all
+          duration-300
           "
         >
-          🚀 Analyze Store
+        🚀 Analyze Store
         </Link>
 
         {/* Mobile */}

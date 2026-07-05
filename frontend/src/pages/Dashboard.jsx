@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
+import CEOSummary from "../components/dashboard/CEOSummary";
+import AccelerationCard from "../components/dashboard/AccelerationCard";
+import DecisionCenter from "../components/dashboard/DecisionCenter";
 import Layout from "../components/Layout";
 import CSVUpload from "../components/dashboard/CSVUpload";
 import ExecutiveSummary from "../components/dashboard/ExecutiveSummary";
@@ -13,6 +17,16 @@ import DownloadReport from "../components/dashboard/DownloadReport";
 
 function Dashboard() {
   const [data, setData] = useState(null);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash === "#upload-section") {
+      document
+        .getElementById("upload-section")
+        ?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [location]);
 
   return (
     <Layout>
@@ -67,10 +81,8 @@ function Dashboard() {
 
         {/* ================= Upload ================= */}
 
-        <div className="mt-10">
-
+        <div id="upload-section" className="mt-10">
           <CSVUpload onUpload={setData} />
-
         </div>
 
         {/* ================= Executive Summary ================= */}
@@ -78,6 +90,10 @@ function Dashboard() {
         <div className="mt-10">
 
           <ExecutiveSummary data={data} />
+
+          <div className="mt-10">
+            <CEOSummary data={data} />
+          </div>
 
         </div>
 
@@ -116,6 +132,22 @@ function Dashboard() {
         <div className="mt-10">
 
           <BusinessScore data={data} />
+
+        </div>
+
+        {/* ================= Decision Center ================= */}
+
+        <div className="mt-10">
+
+          <DecisionCenter data={data} />
+
+        </div>
+
+        {/* ================= Acceleration ================= */}
+
+        <div className="mt-10">
+
+          <AccelerationCard data={data} />
 
         </div>
 
