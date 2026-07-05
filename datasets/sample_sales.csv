@@ -1,0 +1,16 @@
+Date,Product,Category,Quantity,Price,Profit,Inventory
+2026-07-01,Rice,Groceries,15,60,180,120
+2026-07-01,Milk,Dairy,25,30,150,80
+2026-07-01,Bread,Bakery,18,40,144,60
+2026-07-02,Sugar,Groceries,12,50,120,90
+2026-07-02,Eggs,Dairy,30,8,96,150
+2026-07-02,Butter,Dairy,10,55,110,45
+2026-07-03,Biscuits,Snacks,22,20,88,110
+2026-07-03,Chips,Snacks,28,25,140,70
+2026-07-03,Soap,Personal Care,14,45,126,95
+2026-07-04,Shampoo,Personal Care,8,180,216,40
+2026-07-04,Tea,Beverages,20,120,360,75
+2026-07-04,Coffee,Beverages,9,250,315,30
+2026-07-05,Juice,Beverages,17,90,153,65
+2026-07-05,Noodles,Groceries,24,35,168,130
+2026-07-05,Oil,Groceries,11,180,396,50
