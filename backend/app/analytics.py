@@ -52,3 +52,68 @@ def get_sales_trend(df):
         }
         for _, row in trend.iterrows()
     ]
+
+
+def get_low_inventory(df):
+
+    if (
+        "Product" not in df.columns or
+        "Inventory" not in df.columns
+    ):
+        return []
+
+    low_stock = (
+        df.groupby("Product")["Inventory"]
+        .min()
+        .sort_values()
+        .head(5)
+    )
+
+    return [
+        {
+            "product": product,
+            "inventory": int(stock)
+        }
+        for product, stock in low_stock.items()
+    ]
+
+def calculate_business_score(df):
+
+    score = 100
+
+    if "Profit" in df.columns:
+        total_profit = df["Profit"].sum()
+
+        if total_profit < 50000:
+            score -= 20
+
+    if "Inventory" in df.columns:
+        avg_inventory = df["Inventory"].mean()
+
+        if avg_inventory < 50:
+            score -= 15
+
+    if "Quantity" in df.columns:
+        total_sales = df["Quantity"].sum()
+
+        if total_sales < 100:
+            score -= 15
+
+    score = max(score, 0)
+
+    if score >= 90:
+        status = "Excellent"
+
+    elif score >= 75:
+        status = "Good"
+
+    elif score >= 60:
+        status = "Average"
+
+    else:
+        status = "Needs Attention"
+
+    return {
+        "score": score,
+        "status": status,
+    }

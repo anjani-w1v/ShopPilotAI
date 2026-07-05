@@ -3,11 +3,14 @@ import axios from "axios";
 
 function CSVUpload({ onUpload }) {
   const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const uploadFile = async (e) => {
     const file = e.target.files[0];
 
     if (!file) return;
+
+    setLoading(true);
 
     const formData = new FormData();
     formData.append("file", file);
@@ -26,88 +29,99 @@ function CSVUpload({ onUpload }) {
     } catch (error) {
       console.error(error);
       alert("Upload Failed");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-8">
+    <div className="bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl p-8">
 
-      <h2 className="text-2xl font-bold">
-        Upload Sales CSV
+      <h2 className="text-3xl font-bold text-white">
+        📂 Upload Sales CSV
       </h2>
 
-      <p className="text-gray-500 mt-2">
-        Upload your CSV dataset for analysis.
+      <p className="text-slate-400 mt-2">
+        Upload your sales dataset and let AI analyze your business.
       </p>
 
-      <input
-        type="file"
-        accept=".csv"
-        onChange={uploadFile}
-        className="mt-6"
-      />
+      <div className="mt-8">
 
-      {result && (
+        <label className="cursor-pointer inline-block bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg">
+
+          Choose CSV
+
+          <input
+            type="file"
+            accept=".csv"
+            onChange={uploadFile}
+            className="hidden"
+          />
+
+        </label>
+
+      </div>
+
+      {loading && (
+
         <div className="mt-8">
 
-          <h3 className="text-xl font-bold mb-4">
-            Dataset Summary
-          </h3>
+          <div className="w-full bg-slate-700 rounded-full h-3 overflow-hidden">
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-
-            <div className="bg-blue-50 rounded-xl p-4">
-              <p className="text-gray-500 text-sm">Rows</p>
-              <h2 className="text-2xl font-bold text-blue-600">
-                {result.rows}
-              </h2>
-            </div>
-
-            <div className="bg-green-50 rounded-xl p-4">
-              <p className="text-gray-500 text-sm">Columns</p>
-              <h2 className="text-2xl font-bold text-green-600">
-                {result.total_columns}
-              </h2>
-            </div>
-
-            <div className="bg-orange-50 rounded-xl p-4">
-              <p className="text-gray-500 text-sm">Numeric Columns</p>
-              <h2 className="text-2xl font-bold text-orange-600">
-                {result.numeric_columns}
-              </h2>
-            </div>
-
-            <div className="bg-purple-50 rounded-xl p-4">
-              <p className="text-gray-500 text-sm">Text Columns</p>
-              <h2 className="text-2xl font-bold text-purple-600">
-                {result.text_columns}
-              </h2>
-            </div>
+            <div className="bg-gradient-to-r from-cyan-400 to-blue-500 h-3 animate-pulse w-full"></div>
 
           </div>
 
-          <div className="mt-6 bg-slate-100 rounded-xl p-4">
+          <p className="mt-4 text-cyan-400 font-semibold">
+            🤖 AI is analyzing your business...
+          </p>
 
-            <h3 className="font-semibold mb-3">
-              Available Columns
-            </h3>
+        </div>
 
-            <div className="flex flex-wrap gap-2">
+      )}
 
-              {result.columns.map((col) => (
-                <span
-                  key={col}
-                  className="bg-white border rounded-full px-3 py-1 text-sm"
-                >
-                  {col}
-                </span>
-              ))}
+      {result && (
 
+        <div className="mt-8 bg-slate-800 border border-slate-700 rounded-2xl p-6">
+
+          <h3 className="text-2xl font-bold text-white">
+            📊 Dataset Summary
+          </h3>
+
+          <div className="grid md:grid-cols-2 gap-4 mt-6">
+
+            <div className="bg-slate-900 rounded-xl p-4 border border-slate-700">
+              <p className="text-slate-400 text-sm">Rows</p>
+              <p className="text-3xl font-bold text-cyan-400">
+                {result.rows}
+              </p>
+            </div>
+
+            <div className="bg-slate-900 rounded-xl p-4 border border-slate-700">
+              <p className="text-slate-400 text-sm">Columns</p>
+              <p className="text-3xl font-bold text-purple-400">
+                {result.total_columns}
+              </p>
+            </div>
+
+            <div className="bg-slate-900 rounded-xl p-4 border border-slate-700">
+              <p className="text-slate-400 text-sm">Numeric</p>
+              <p className="text-3xl font-bold text-green-400">
+                {result.numeric_columns}
+              </p>
+            </div>
+
+            <div className="bg-slate-900 rounded-xl p-4 border border-slate-700">
+              <p className="text-slate-400 text-sm">Text</p>
+              <p className="text-3xl font-bold text-orange-400">
+                {result.text_columns}
+              </p>
             </div>
 
           </div>
 
         </div>
+
       )}
 
     </div>

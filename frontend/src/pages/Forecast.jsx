@@ -1,8 +1,18 @@
+import Layout from "../components/Layout";
+
 function Forecast() {
   return (
-    <h1 className="text-5xl font-bold p-10">
-      Forecast
-    </h1>
+    <Layout>
+
+      <h1 className="text-5xl font-bold">
+        📈 Sales Forecast
+      </h1>
+
+      <p className="text-slate-400 mt-6 text-lg">
+        AI-powered sales prediction dashboard.
+      </p>
+
+    </Layout>
   );
 }
 

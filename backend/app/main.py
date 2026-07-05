@@ -2,7 +2,12 @@ from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 
-from app.analytics import calculate_kpis, get_sales_trend
+from app.analytics import (
+    calculate_kpis,
+    get_sales_trend,
+    get_low_inventory,
+    calculate_business_score,
+)
 
 app = FastAPI()
 
@@ -29,6 +34,12 @@ async def upload_csv(file: UploadFile = File(...)):
 
     # ---------- Sales Trend ----------
     sales_trend = get_sales_trend(df)
+
+    # ---------- Low Inventory ----------
+    low_inventory_cards = get_low_inventory(df)
+
+    # ---------- Business Score ----------
+    business_score = calculate_business_score(df)
 
     # ---------- Category Chart ----------
     category_data = []
@@ -63,7 +74,6 @@ async def upload_csv(file: UploadFile = File(...)):
     best_product = "N/A"
     best_category = "N/A"
     highest_profit_product = "N/A"
-    low_inventory = []
 
     if "Product" in df.columns and "Quantity" in df.columns:
         best_product = (
@@ -86,13 +96,6 @@ async def upload_csv(file: UploadFile = File(...)):
             .idxmax()
         )
 
-    if "Inventory" in df.columns:
-        low_inventory = (
-            df[df["Inventory"] < 30]["Product"]
-            .drop_duplicates()
-            .tolist()
-        )
-
     insights = [
         f"🏆 Best Selling Product: {best_product}",
         f"🥇 Top Category: {best_category}",
@@ -101,10 +104,11 @@ async def upload_csv(file: UploadFile = File(...)):
         f"📈 Total Profit: ₹{round(kpis['profit']):,}",
     ]
 
-    if low_inventory:
-        insights.append(
-            f"⚠️ Low Inventory: {', '.join(low_inventory)}"
+    if low_inventory_cards:
+        products = ", ".join(
+            item["product"] for item in low_inventory_cards
         )
+        insights.append(f"⚠️ Low Inventory: {products}")
 
     insights.append(
         "💡 Recommendation: Restock low inventory products and focus promotions on your best-selling category."
@@ -118,9 +122,11 @@ async def upload_csv(file: UploadFile = File(...)):
         "text_columns": len(df.select_dtypes(include="object").columns),
 
         **kpis,
-
+        
+        "business_score": business_score,
         "category_data": category_data,
         "product_data": product_data,
         "sales_trend": sales_trend,
+        "low_inventory": low_inventory_cards,
         "insights": insights,
     }

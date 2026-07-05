@@ -15,13 +15,25 @@ import {
 } from "recharts";
 
 const COLORS = [
-  "#2563EB",
-  "#16A34A",
-  "#EA580C",
-  "#9333EA",
-  "#DC2626",
-  "#0891B2",
+  "#22D3EE",
+  "#3B82F6",
+  "#8B5CF6",
+  "#F97316",
+  "#10B981",
+  "#EC4899",
 ];
+
+const axisStyle = {
+  stroke: "#94A3B8",
+  fontSize: 12,
+};
+
+const tooltipStyle = {
+  backgroundColor: "#0F172A",
+  border: "1px solid #334155",
+  borderRadius: "12px",
+  color: "#FFFFFF",
+};
 
 function Charts({ data }) {
   if (!data) return null;
@@ -31,32 +43,46 @@ function Charts({ data }) {
 
       {/* Revenue Trend */}
 
-      <div className="bg-white rounded-2xl shadow-md p-6">
+      <div className="bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl p-8">
 
-        <h2 className="text-2xl font-bold mb-6">
-          Revenue Trend
+        <h2 className="text-3xl font-bold text-white mb-8">
+          📈 Revenue Trend
         </h2>
 
-        <ResponsiveContainer width="100%" height={320}>
+        <ResponsiveContainer width="100%" height={340}>
 
           <LineChart data={data.sales_trend}>
 
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid
+              stroke="#334155"
+              strokeDasharray="3 3"
+            />
 
-            <XAxis dataKey="date" />
+            <XAxis
+              dataKey="date"
+              tick={axisStyle}
+            />
 
-            <YAxis />
+            <YAxis tick={axisStyle} />
 
-            <Tooltip />
+            <Tooltip
+              contentStyle={tooltipStyle}
+            />
 
             <Legend />
 
             <Line
               type="monotone"
               dataKey="revenue"
-              stroke="#2563EB"
-              strokeWidth={3}
-              dot={false}
+              stroke="#22D3EE"
+              strokeWidth={4}
+              dot={{
+                fill: "#22D3EE",
+                r: 4,
+              }}
+              activeDot={{
+                r: 7,
+              }}
             />
 
           </LineChart>
@@ -67,31 +93,40 @@ function Charts({ data }) {
 
       <div className="grid lg:grid-cols-2 gap-8">
 
-        {/* Top Products */}
+        {/* Products */}
 
-        <div className="bg-white rounded-2xl shadow-md p-6">
+        <div className="bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl p-8">
 
-          <h2 className="text-2xl font-bold mb-6">
-            Top Products
+          <h2 className="text-3xl font-bold text-white mb-8">
+            🏆 Top Products
           </h2>
 
-          <ResponsiveContainer width="100%" height={320}>
+          <ResponsiveContainer width="100%" height={340}>
 
             <BarChart data={data.product_data}>
 
-              <CartesianGrid strokeDasharray="3 3" />
+              <CartesianGrid
+                stroke="#334155"
+                strokeDasharray="3 3"
+              />
 
-              <XAxis dataKey="name" />
+              <XAxis
+                dataKey="name"
+                tick={axisStyle}
+              />
 
-              <YAxis />
+              <YAxis tick={axisStyle} />
 
-              <Tooltip />
+              <Tooltip
+                contentStyle={tooltipStyle}
+              />
 
               <Legend />
 
               <Bar
                 dataKey="sales"
-                radius={[8, 8, 0, 0]}
+                radius={[12, 12, 0, 0]}
+                fill="#3B82F6"
               />
 
             </BarChart>
@@ -100,15 +135,15 @@ function Charts({ data }) {
 
         </div>
 
-        {/* Category Distribution */}
+        {/* Categories */}
 
-        <div className="bg-white rounded-2xl shadow-md p-6">
+        <div className="bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl p-8">
 
-          <h2 className="text-2xl font-bold mb-6">
-            Category Distribution
+          <h2 className="text-3xl font-bold text-white mb-8">
+            🥧 Category Distribution
           </h2>
 
-          <ResponsiveContainer width="100%" height={320}>
+          <ResponsiveContainer width="100%" height={340}>
 
             <PieChart>
 
@@ -116,7 +151,7 @@ function Charts({ data }) {
                 data={data.category_data}
                 dataKey="value"
                 nameKey="name"
-                outerRadius={110}
+                outerRadius={120}
                 label
               >
 
@@ -131,7 +166,9 @@ function Charts({ data }) {
 
               </Pie>
 
-              <Tooltip />
+              <Tooltip
+                contentStyle={tooltipStyle}
+              />
 
               <Legend />
 
