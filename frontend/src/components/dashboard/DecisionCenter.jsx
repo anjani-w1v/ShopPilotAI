@@ -1,8 +1,8 @@
 function DecisionCenter({ data }) {
-
   if (!data || !data.decision_center) return null;
 
-  const { critical, opportunities } = data.decision_center;
+  const critical = data.decision_center.critical || [];
+  const opportunities = data.decision_center.opportunities || [];
 
   return (
     <div className="bg-slate-900 border border-slate-700 rounded-3xl p-8 mt-10">
@@ -23,12 +23,16 @@ function DecisionCenter({ data }) {
             🔥 Critical Actions
           </h3>
 
-          {critical.map((item, i) => (
-            <div key={i} className="mb-4">
-              <p className="font-semibold text-white">{item.title}</p>
-              <p className="text-slate-300">{item.message}</p>
-            </div>
-          ))}
+          {critical.length === 0 ? (
+            <p className="text-slate-400">No critical actions.</p>
+          ) : (
+            critical.map((item, i) => (
+              <div key={i} className="mb-4">
+                <p className="font-semibold text-white">{item.title}</p>
+                <p className="text-slate-300">{item.message}</p>
+              </div>
+            ))
+          )}
 
         </div>
 
@@ -38,12 +42,16 @@ function DecisionCenter({ data }) {
             📈 Growth Opportunities
           </h3>
 
-          {opportunities.map((item, i) => (
-            <div key={i} className="mb-4">
-              <p className="font-semibold text-white">{item.title}</p>
-              <p className="text-slate-300">{item.message}</p>
-            </div>
-          ))}
+          {opportunities.length === 0 ? (
+            <p className="text-slate-400">No opportunities available.</p>
+          ) : (
+            opportunities.map((item, i) => (
+              <div key={i} className="mb-4">
+                <p className="font-semibold text-white">{item.title}</p>
+                <p className="text-slate-300">{item.message}</p>
+              </div>
+            ))
+          )}
 
         </div>
 

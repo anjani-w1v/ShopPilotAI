@@ -140,38 +140,91 @@ function Home() {
 
         {/* ================= TECH STACK ================= */}
 
-        <section className="mt-24">
+        {/* ================= FEATURES ================= */}
 
-          <h2 className="text-4xl font-bold text-center text-white">
-            Built With
-          </h2>
+<section className="mt-24">
 
-          <div className="flex flex-wrap justify-center gap-5 mt-12">
+  <h2 className="text-5xl font-black text-center text-white">
+    Why ShopPilot AI?
+  </h2>
 
-            <span className="bg-slate-900 border border-slate-700 rounded-full px-6 py-3 text-cyan-400 font-semibold">
-              ⚛ React
-            </span>
+  <p className="text-slate-400 text-center text-xl mt-4">
+    Everything you need to analyze, forecast and grow your retail business.
+  </p>
 
-            <span className="bg-slate-900 border border-slate-700 rounded-full px-6 py-3 text-cyan-400 font-semibold">
-              ⚡ FastAPI
-            </span>
+  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
 
-            <span className="bg-slate-900 border border-slate-700 rounded-full px-6 py-3 text-cyan-400 font-semibold">
-              🐼 Pandas
-            </span>
+    <div className="bg-slate-900 border border-slate-700 rounded-3xl p-8 hover:border-cyan-500 transition-all">
+      <div className="text-5xl mb-5">📊</div>
+      <h3 className="text-2xl font-bold text-white">
+        Instant Analytics
+      </h3>
+      <p className="text-slate-400 mt-4">
+        Upload your sales CSV and instantly generate KPIs, revenue metrics,
+        business scores and performance dashboards.
+      </p>
+    </div>
 
-            <span className="bg-slate-900 border border-slate-700 rounded-full px-6 py-3 text-cyan-400 font-semibold">
-              📊 Recharts
-            </span>
+    <div className="bg-slate-900 border border-slate-700 rounded-3xl p-8 hover:border-purple-500 transition-all">
+      <div className="text-5xl mb-5">🤖</div>
+      <h3 className="text-2xl font-bold text-white">
+        Gemini AI Consultant
+      </h3>
+      <p className="text-slate-400 mt-4">
+        Google Gemini provides executive summaries, strategic
+        recommendations, risks and growth opportunities.
+      </p>
+    </div>
 
-            <span className="bg-slate-900 border border-slate-700 rounded-full px-6 py-3 text-cyan-400 font-semibold">
-              🎨 Tailwind CSS
-            </span>
+    <div className="bg-slate-900 border border-slate-700 rounded-3xl p-8 hover:border-green-500 transition-all">
+      <div className="text-5xl mb-5">📈</div>
+      <h3 className="text-2xl font-bold text-white">
+        Smart Forecasting
+      </h3>
+      <p className="text-slate-400 mt-4">
+        Predict upcoming sales trends using interactive charts
+        and AI-powered forecasting.
+      </p>
+    </div>
 
-          </div>
+    <div className="bg-slate-900 border border-slate-700 rounded-3xl p-8 hover:border-orange-500 transition-all">
+      <div className="text-5xl mb-5">📦</div>
+      <h3 className="text-2xl font-bold text-white">
+        Inventory Monitoring
+      </h3>
+      <p className="text-slate-400 mt-4">
+        Detect low inventory products before they become
+        out-of-stock and affect revenue.
+      </p>
+    </div>
 
-        </section>
+    <div className="bg-slate-900 border border-slate-700 rounded-3xl p-8 hover:border-pink-500 transition-all">
+      <div className="text-5xl mb-5">⚡</div>
+      <h3 className="text-2xl font-bold text-white">
+        Decision Center
+      </h3>
+      <p className="text-slate-400 mt-4">
+        Prioritize business actions using AI-generated
+        executive recommendations and alerts.
+      </p>
+    </div>
 
+    <div className="bg-slate-900 border border-slate-700 rounded-3xl p-8 hover:border-cyan-500 transition-all">
+      <div className="text-5xl mb-5">📄</div>
+      <h3 className="text-2xl font-bold text-white">
+        Executive Reports
+      </h3>
+      <p className="text-slate-400 mt-4">
+        Download beautiful PDF reports to share with
+        managers, investors and stakeholders.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+        
         {/* ================= CTA ================= */}
 
         <section className="mt-24 mb-10">

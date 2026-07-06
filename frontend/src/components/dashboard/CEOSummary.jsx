@@ -1,5 +1,4 @@
 function CEOSummary({ data }) {
-
   if (!data || !data.ceo_summary) return null;
 
   const c = data.ceo_summary;
@@ -14,6 +13,8 @@ function CEOSummary({ data }) {
       <h2 className="text-3xl font-bold text-white mt-2">
         👑 CEO Summary
       </h2>
+
+      {/* KPI Cards */}
 
       <div className="grid md:grid-cols-5 gap-6 mt-8">
 
@@ -53,6 +54,22 @@ function CEOSummary({ data }) {
         </div>
 
       </div>
+
+      {/* Gemini AI Analysis */}
+
+      {data.gemini_summary && (
+        <div className="mt-10 bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6">
+
+          <h3 className="text-2xl font-bold text-white mb-4">
+            🤖 Gemini AI Business Analysis
+          </h3>
+
+          <div className="text-emerald-50 whitespace-pre-wrap leading-8">
+            {data.gemini_summary}
+          </div>
+
+        </div>
+      )}
 
     </div>
   );

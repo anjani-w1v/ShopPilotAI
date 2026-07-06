@@ -10,6 +10,8 @@ from app.analytics import (
     get_decision_center,
 )
 
+from app.gemini_service import generate_business_insights
+
 app = FastAPI()
 
 app.add_middleware(
@@ -100,6 +102,60 @@ async def upload_csv(file: UploadFile = File(...)):
             .idxmax()
         )
 
+    # ---------- Gemini AI ----------
+
+    # ---------- Gemini AI ----------
+
+    gemini_prompt = f"""
+    You are the Chief Strategy Officer of a Fortune 500 retail company.
+
+    Analyze the following business metrics and provide an executive-level business report.
+
+    BUSINESS DATA
+
+    Revenue: ₹{kpis['revenue']}
+    Profit: ₹{kpis['profit']}
+    Orders: {kpis['orders']}
+    Average Inventory: {kpis['inventory']}
+    Business Score: {business_score['score']}/100
+
+    Top Selling Product:
+    {best_product}
+
+    Top Category:
+    {best_category}
+
+    Highest Profit Product:
+    {highest_profit_product}
+
+    Prepare the report using exactly the following sections.
+
+    # Executive Summary
+    Provide a concise overview of overall business performance.
+
+    # Business Health
+    Rate the business as Excellent, Good, Average or Critical and explain why.
+
+    # Key Strengths
+    List three strengths.
+
+    # Business Risks
+    List three important risks.
+
+    # Growth Opportunities
+    Suggest three realistic growth opportunities.
+
+    # CEO Recommendations
+    Give five actionable recommendations in priority order.
+
+    # Forecast
+    Predict how the business is likely to perform over the next 30 days if current trends continue.
+
+    Keep the report professional, concise, data-driven and under 400 words.
+    """
+
+    gemini_summary = generate_business_insights(gemini_prompt)
+
     insights = [
         f"🏆 Best Selling Product: {best_product}",
         f"🥇 Top Category: {best_category}",
@@ -154,5 +210,6 @@ async def upload_csv(file: UploadFile = File(...)):
         "decision_center": decision_center,
         "acceleration": acceleration,
         "ceo_summary": ceo_summary,
+        "gemini_summary": gemini_summary,
         "insights": insights,
     }

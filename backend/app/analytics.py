@@ -125,8 +125,16 @@ def sales_forecast(df):
     Simple 7-day sales forecast using average daily revenue.
     """
 
-    if "Date" not in df.columns or "Revenue" not in df.columns:
+    if (
+        "Date" not in df.columns or
+        "Price" not in df.columns or
+        "Quantity" not in df.columns
+    ):
         return []
+
+    df = df.copy()
+
+    df["Revenue"] = df["Price"] * df["Quantity"]
 
     daily = (
         df.groupby("Date")["Revenue"]
@@ -143,7 +151,7 @@ def sales_forecast(df):
     for i in range(1, 8):
         forecast.append({
             "date": (last_date + pd.Timedelta(days=i)).strftime("%Y-%m-%d"),
-            "forecast": round(avg)
+            "forecast": round(avg, 2)
         })
 
     return forecast
@@ -153,25 +161,56 @@ def get_decision_center(df):
     critical = []
     opportunities = []
 
-    low = get_low_inventory(df)
+    if "Inventory" in df.columns:
 
-    if len(low) > 0:
-        critical.append({
-            "title": "Restock Immediately",
-            "message": f"{low[0]['product']} has only {low[0]['inventory']} units remaining."
+        low_stock = df[df["Inventory"] < 50]
+
+        if not low_stock.empty:
+
+            critical.append({
+                "title": "Restock Inventory",
+                "message": f"{len(low_stock)} products are running low."
+            })
+
+    if "Profit" in df.columns:
+
+        if df["Profit"].sum() < 50000:
+
+            critical.append({
+                "title": "Increase Profit",
+                "message": "Profit is below target. Consider improving pricing or reducing costs."
+            })
+
+    if (
+        "Category" in df.columns and
+        "Quantity" in df.columns
+    ):
+
+        top_category = (
+            df.groupby("Category")["Quantity"]
+            .sum()
+            .idxmax()
+        )
+
+        opportunities.append({
+            "title": "Promote Top Category",
+            "message": f"Increase marketing for {top_category}."
         })
 
-    score = calculate_business_score(df)["score"]
+    if (
+        "Product" in df.columns and
+        "Profit" in df.columns
+    ):
 
-    if score >= 80:
+        best_product = (
+            df.groupby("Product")["Profit"]
+            .sum()
+            .idxmax()
+        )
+
         opportunities.append({
-            "title": "Growth Opportunity",
-            "message": "Business health is strong. Increase marketing for your best-selling products."
-        })
-    else:
-        opportunities.append({
-            "title": "Improve Performance",
-            "message": "Increase profit margin and improve inventory levels."
+            "title": "Focus on High-Profit Product",
+            "message": f"Boost sales of {best_product} to maximize profits."
         })
 
     return {
