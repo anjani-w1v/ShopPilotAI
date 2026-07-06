@@ -17,7 +17,7 @@ function CSVUpload({ onUpload }) {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/upload",
+        `${import.meta.env.VITE_API_URL}/upload`,
         formData
       );
 
