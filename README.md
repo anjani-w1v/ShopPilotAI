@@ -118,4 +118,6 @@ Add screenshots of:
 
 ## 👨‍💻 Author
 
-Anjani
+Anjani Kumari
+
+
